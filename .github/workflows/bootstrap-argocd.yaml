@@ -1,0 +1,27 @@
+name: Bootstrap Argo CD Application
+
+on:
+  push:
+    paths:
+      - "k8s/argocd/**"
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Apply Argo CD Application
+      run: |
+        ssh ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+        sudo k3s kubectl apply -f /home/${{ secrets.VM_USER }}/wazuh-gitops/k8s/argocd/wazuh-app.yaml
+        EOF
