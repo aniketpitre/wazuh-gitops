@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wazuh-indexer
+  namespace: wazuh
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wazuh-indexer
+  template:
+    metadata:
+      labels:
+        app: wazuh-indexer
+    spec:
+      containers:
+      - name: wazuh-indexer
+        image: wazuh/wazuh-indexer:5.0.0
+        ports:
+        - containerPort: 9200
+        volumeMounts:
+        - mountPath: /var/lib/wazuh-indexer
+          name: indexer-data
+      volumes:
+      - name: indexer-data
+        persistentVolumeClaim:
+          claimName: wazuh-indexer-pvc
