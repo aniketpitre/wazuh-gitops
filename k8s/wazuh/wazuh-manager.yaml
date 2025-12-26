@@ -18,6 +18,13 @@ spec:
         image: wazuh/wazuh-manager:4.8.2
         ports:
         - containerPort: 1514
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "1.5Gi"
+            cpu: "1"
         volumeMounts:
         - name: manager-data
           mountPath: /var/ossec

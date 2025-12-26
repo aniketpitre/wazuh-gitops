@@ -4,8 +4,7 @@ metadata:
   name: wazuh-manager-pvc
   namespace: wazuh
 spec:
-  accessModes:
-    - ReadWriteOnce
+  accessModes: [ReadWriteOnce]
   resources:
     requests:
       storage: 20Gi
@@ -16,8 +15,7 @@ metadata:
   name: wazuh-indexer-pvc
   namespace: wazuh
 spec:
-  accessModes:
-    - ReadWriteOnce
+  accessModes: [ReadWriteOnce]
   resources:
     requests:
       storage: 30Gi
@@ -28,8 +26,7 @@ metadata:
   name: wazuh-dashboard-pvc
   namespace: wazuh
 spec:
-  accessModes:
-    - ReadWriteOnce
+  accessModes: [ReadWriteOnce]
   resources:
     requests:
       storage: 5Gi

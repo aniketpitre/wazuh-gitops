@@ -18,6 +18,13 @@ spec:
         image: wazuh/wazuh-dashboard:4.8.2
         ports:
         - containerPort: 443
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         volumeMounts:
         - name: dashboard-data
           mountPath: /usr/share/wazuh-dashboard/data

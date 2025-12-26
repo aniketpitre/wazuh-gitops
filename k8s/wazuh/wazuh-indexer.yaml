@@ -18,6 +18,16 @@ spec:
         image: wazuh/wazuh-indexer:4.8.2
         ports:
         - containerPort: 9200
+        env:
+        - name: OPENSEARCH_JAVA_OPTS
+          value: "-Xms1g -Xmx1g"
+        resources:
+          requests:
+            memory: "1.5Gi"
+            cpu: "500m"
+          limits:
+            memory: "2.5Gi"
+            cpu: "1"
         volumeMounts:
         - name: indexer-data
           mountPath: /var/lib/wazuh-indexer
