@@ -4,7 +4,7 @@ metadata:
   name: wazuh-manager-pv
 spec:
   capacity:
-    storage: 20Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
@@ -16,7 +16,7 @@ metadata:
   name: wazuh-indexer-pv
 spec:
   capacity:
-    storage: 30Gi
+    storage: 15Gi
   accessModes:
     - ReadWriteOnce
   hostPath:

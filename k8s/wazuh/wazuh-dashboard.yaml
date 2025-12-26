@@ -13,22 +13,22 @@ spec:
       labels:
         app: wazuh-dashboard
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
-      - name: wazuh-dashboard
-        image: ghcr.io/wazuh/wazuh-dashboard:4.8.2
-        ports:
-        - containerPort: 443
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        volumeMounts:
-        - name: dashboard-data
-          mountPath: /usr/share/wazuh-dashboard/data
+        - name: wazuh-dashboard
+          image: ghcr.io/wazuh/wazuh-dashboard:4.8.2
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+          volumeMounts:
+            - mountPath: /usr/share/wazuh-dashboard/data
+              name: dashboard-data
       volumes:
-      - name: dashboard-data
-        persistentVolumeClaim:
-          claimName: wazuh-dashboard-pvc
+        - name: dashboard-data
+          persistentVolumeClaim:
+            claimName: wazuh-dashboard-pvc

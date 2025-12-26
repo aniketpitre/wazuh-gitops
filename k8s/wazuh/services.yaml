@@ -7,7 +7,7 @@ spec:
   selector:
     app: wazuh-manager
   ports:
-  - port: 1514
+    - port: 1514
 ---
 apiVersion: v1
 kind: Service
@@ -18,7 +18,7 @@ spec:
   selector:
     app: wazuh-indexer
   ports:
-  - port: 9200
+    - port: 9200
 ---
 apiVersion: v1
 kind: Service
@@ -30,5 +30,5 @@ spec:
   selector:
     app: wazuh-dashboard
   ports:
-  - port: 443
-    nodePort: 30443
+    - port: 443
+      nodePort: 30443

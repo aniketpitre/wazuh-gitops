@@ -4,10 +4,11 @@ metadata:
   name: wazuh-manager-pvc
   namespace: wazuh
 spec:
-  accessModes: [ReadWriteOnce]
+  accessModes:
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi
+      storage: 10Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -15,10 +16,11 @@ metadata:
   name: wazuh-indexer-pvc
   namespace: wazuh
 spec:
-  accessModes: [ReadWriteOnce]
+  accessModes:
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 30Gi
+      storage: 15Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -26,7 +28,8 @@ metadata:
   name: wazuh-dashboard-pvc
   namespace: wazuh
 spec:
-  accessModes: [ReadWriteOnce]
+  accessModes:
+    - ReadWriteOnce
   resources:
     requests:
       storage: 5Gi
