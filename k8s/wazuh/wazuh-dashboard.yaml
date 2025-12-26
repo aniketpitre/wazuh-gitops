@@ -20,7 +20,7 @@ spec:
           image: ghcr.io/wazuh/wazuh-dashboard:4.8.1
           resources:
             requests:
-              cpu: "250m"
+              cpu: "100m"
               memory: "512Mi"
             limits:
               cpu: "500m"
