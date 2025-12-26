@@ -6,9 +6,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/aniketpitre/wazuh-gitops.git
-    targetRevision: main
-    path: k8s/wazuh
+    repoURL: https://packages.wazuh.com/helm
+    chart: wazuh
+    targetRevision: 4.8.1
+    helm:
+      valueFiles:
+        - https://raw.githubusercontent.com/aniketpitre/wazuh-gitops/main/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: wazuh
