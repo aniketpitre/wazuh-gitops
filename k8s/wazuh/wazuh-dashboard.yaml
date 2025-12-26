@@ -18,3 +18,10 @@ spec:
         image: wazuh/wazuh-dashboard:5.0.0
         ports:
         - containerPort: 443
+        volumeMounts:
+        - name: dashboard-data
+          mountPath: /usr/share/wazuh-dashboard/data
+      volumes:
+      - name: dashboard-data
+        persistentVolumeClaim:
+          claimName: wazuh-dashboard-pvc

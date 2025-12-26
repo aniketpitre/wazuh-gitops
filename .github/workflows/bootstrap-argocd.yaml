@@ -1,27 +1,25 @@
-name: Bootstrap Argo CD Application
+name: Bootstrap ArgoCD Wazuh
 
 on:
   push:
     paths:
-      - "k8s/argocd/**"
+      - "k8s/wazuh/wazuh-app.yaml"
 
 jobs:
   bootstrap:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Setup SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+    - name: Install Tailscale
+      uses: tailscale/github-action@v2
+      with:
+        authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
-    - name: Apply Argo CD Application
+    - name: Apply ArgoCD Application
       run: |
-        ssh ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
-        sudo k3s kubectl apply -f /home/${{ secrets.VM_USER }}/wazuh-gitops/k8s/argocd/wazuh-app.yaml
-        EOF
+        ssh -o StrictHostKeyChecking=no \
+        ${{ secrets.VM_USER }}@${{ secrets.VM_TAILSCALE_IP }} \
+        "sudo k3s kubectl apply -f ~/wazuh-gitops/k8s/wazuh/wazuh-app.yaml"

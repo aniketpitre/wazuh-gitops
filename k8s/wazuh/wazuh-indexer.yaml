@@ -19,8 +19,8 @@ spec:
         ports:
         - containerPort: 9200
         volumeMounts:
-        - mountPath: /var/lib/wazuh-indexer
-          name: indexer-data
+        - name: indexer-data
+          mountPath: /var/lib/wazuh-indexer
       volumes:
       - name: indexer-data
         persistentVolumeClaim:

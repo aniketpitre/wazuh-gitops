@@ -19,8 +19,8 @@ spec:
         ports:
         - containerPort: 1514
         volumeMounts:
-        - mountPath: /var/ossec
-          name: manager-data
+        - name: manager-data
+          mountPath: /var/ossec
       volumes:
       - name: manager-data
         persistentVolumeClaim:
