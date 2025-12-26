@@ -3,6 +3,7 @@ kind: PersistentVolume
 metadata:
   name: wazuh-manager-pv
 spec:
+  storageClassName: wazuh-local
   capacity:
     storage: 10Gi
   accessModes:
@@ -15,6 +16,7 @@ kind: PersistentVolume
 metadata:
   name: wazuh-indexer-pv
 spec:
+  storageClassName: wazuh-local
   capacity:
     storage: 15Gi
   accessModes:
@@ -27,6 +29,7 @@ kind: PersistentVolume
 metadata:
   name: wazuh-dashboard-pv
 spec:
+  storageClassName: wazuh-local
   capacity:
     storage: 5Gi
   accessModes:

@@ -4,6 +4,7 @@ metadata:
   name: wazuh-manager-pvc
   namespace: wazuh
 spec:
+  storageClassName: wazuh-local
   accessModes:
     - ReadWriteOnce
   resources:
@@ -16,6 +17,7 @@ metadata:
   name: wazuh-indexer-pvc
   namespace: wazuh
 spec:
+  storageClassName: wazuh-local
   accessModes:
     - ReadWriteOnce
   resources:
@@ -28,6 +30,7 @@ metadata:
   name: wazuh-dashboard-pvc
   namespace: wazuh
 spec:
+  storageClassName: wazuh-local
   accessModes:
     - ReadWriteOnce
   resources:
