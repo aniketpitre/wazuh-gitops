@@ -13,11 +13,9 @@ spec:
       labels:
         app: wazuh-dashboard
     spec:
-      imagePullSecrets:
-        - name: ghcr-secret
       containers:
         - name: wazuh-dashboard
-          image: ghcr.io/wazuh/wazuh-dashboard:4.8.1
+          image: wazuh/wazuh-dashboard:4.8.1
           resources:
             requests:
               cpu: "100m"
