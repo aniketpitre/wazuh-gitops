@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: wazuh-manager
-        image: wazuh/wazuh-manager:4.8.2
+        image: ghcr.io/wazuh/wazuh-manager:4.8.2
         ports:
         - containerPort: 1514
         resources:
