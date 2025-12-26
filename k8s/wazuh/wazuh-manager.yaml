@@ -17,7 +17,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: wazuh-manager
-          image: ghcr.io/wazuh/wazuh-manager:4.8.2
+          image: ghcr.io/wazuh/wazuh-manager:4.8.1
           resources:
             requests:
               cpu: "500m"
