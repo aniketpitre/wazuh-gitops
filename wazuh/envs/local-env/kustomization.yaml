@@ -4,5 +4,7 @@ kind: Kustomization
 resources:
   - storage-class.yaml
   - pvc.yaml
-  - indexer-resources.yaml
+  - indexer.yaml
   - wazuh-resources.yaml
+  - dashboard.yaml
+  - dashboard-service.yaml

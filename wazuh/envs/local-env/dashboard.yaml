@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wazuh-dashboard
+  namespace: wazuh
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wazuh-dashboard
+  template:
+    metadata:
+      labels:
+        app: wazuh-dashboard
+    spec:
+      containers:
+        - name: wazuh-dashboard
+          image: wazuh/wazuh-dashboard:4.7.2
+          ports:
+            - containerPort: 5601
+          env:
+            - name: INDEXER_URL
+              value: https://wazuh-indexer:9200
+            - name: DASHBOARD_USERNAME
+              value: admin
+            - name: DASHBOARD_PASSWORD
+              value: admin
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "300m"
+              memory: "512Mi"
