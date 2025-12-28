@@ -21,9 +21,9 @@ spec:
           env:
             - name: OPENSEARCH_HOSTS
               value: '["https://wazuh-indexer:9200"]'
-            - name: DASHBOARD_USERNAME
+            - name: OPENSEARCH_USERNAME
               value: admin
-            - name: DASHBOARD_PASSWORD
+            - name: OPENSEARCH_PASSWORD
               value: admin
           resources:
             requests:
