@@ -23,6 +23,8 @@ spec:
           env:
             - name: OPENSEARCH_JAVA_OPTS
               value: "-Xms512m -Xmx512m"
+            - name: OPENSEARCH_SECURITY_ENABLED
+              value: "false"
 
           ports:
             - containerPort: 9200
