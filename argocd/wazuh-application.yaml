@@ -6,18 +6,16 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://packages.wazuh.com/helm
+    repoURL: https://github.com/aniketpitre/wazuh-gitops.git
+    targetRevision: main
     chart: wazuh
-    targetRevision: 4.8.1
     helm:
       valueFiles:
-        - https://raw.githubusercontent.com/aniketpitre/wazuh-gitops/main/values.yaml
+        - wazuh/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: wazuh
   syncPolicy:
     automated:
-      prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+      prune: false
