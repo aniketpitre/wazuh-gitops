@@ -3,5 +3,5 @@ kind: StorageClass
 metadata:
   name: wazuh-storage
 provisioner: rancher.io/local-path
-volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer

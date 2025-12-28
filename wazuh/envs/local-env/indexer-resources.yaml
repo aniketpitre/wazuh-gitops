@@ -4,23 +4,41 @@ metadata:
   name: wazuh-indexer
   namespace: wazuh
 spec:
+  serviceName: wazuh-indexer
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: wazuh-indexer
+
   template:
+    metadata:
+      labels:
+        app: wazuh-indexer
     spec:
       containers:
         - name: wazuh-indexer
+          image: wazuh/wazuh-indexer:4.7.2
+
           env:
             - name: OPENSEARCH_JAVA_OPTS
               value: "-Xms512m -Xmx512m"
+
+          ports:
+            - containerPort: 9200
+
           resources:
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: "250m"
+              memory: "512Mi"
             limits:
-              cpu: 500m
-              memory: 1Gi
+              cpu: "500m"
+              memory: "1Gi"
+
           volumeMounts:
             - name: wazuh-indexer-data
               mountPath: /var/lib/wazuh-indexer
+
       volumes:
         - name: wazuh-indexer-data
           persistentVolumeClaim:
