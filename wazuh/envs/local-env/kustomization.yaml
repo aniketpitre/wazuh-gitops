@@ -9,5 +9,6 @@ resources:
   - wazuh-manager-service.yaml
   - indexer-resources.yaml
   - wazuh-resources.yaml
+  - dashboard-config.yaml 
   - dashboard.yaml
   - dashboard-service.yaml

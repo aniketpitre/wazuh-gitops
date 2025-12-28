@@ -18,13 +18,12 @@ spec:
           image: wazuh/wazuh-dashboard:4.7.2
           ports:
             - containerPort: 5601
-          env:
-            - name: OPENSEARCH_HOSTS
-              value: '["https://wazuh-indexer:9200"]'
-            - name: OPENSEARCH_USERNAME
-              value: admin
-            - name: OPENSEARCH_PASSWORD
-              value: admin
+
+          volumeMounts:
+            - name: dashboard-config
+              mountPath: /usr/share/wazuh-dashboard/config/opensearch_dashboards.yml
+              subPath: opensearch_dashboards.yml
+
           resources:
             requests:
               cpu: "100m"
@@ -32,3 +31,8 @@ spec:
             limits:
               cpu: "300m"
               memory: "512Mi"
+
+      volumes:
+        - name: dashboard-config
+          configMap:
+            name: wazuh-dashboard-config
