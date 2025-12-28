@@ -12,7 +12,3 @@ data:
     opensearch.username: admin
     opensearch.password: admin
     opensearch.ssl.verificationMode: none
-
-    wazuh.api.url: "https://wazuh-manager:55000"
-    wazuh.api.username: wazuh
-    wazuh.api.password: wazuh
