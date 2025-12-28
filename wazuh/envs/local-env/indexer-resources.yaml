@@ -25,6 +25,10 @@ spec:
               value: "-Xms512m -Xmx512m"
             - name: OPENSEARCH_SECURITY_ENABLED
               value: "false"
+            - name: OPENSEARCH_HTTP_SSL_ENABLED
+              value: "false"
+            - name: OPENSEARCH_TRANSPORT_SSL_ENABLED
+              value: "false"
 
           ports:
             - containerPort: 9200
