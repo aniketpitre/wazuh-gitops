@@ -34,3 +34,12 @@ spec:
             limits:
               cpu: "500m"
               memory: "1Gi"
+
+          volumeMounts:
+            - name: wazuh-indexer-data
+              mountPath: /var/lib/wazuh-indexer
+
+      volumes:
+        - name: wazuh-indexer-data
+          persistentVolumeClaim:
+            claimName: wazuh-indexer-pvc

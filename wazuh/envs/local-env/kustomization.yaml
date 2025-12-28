@@ -3,5 +3,6 @@ kind: Kustomization
 
 resources:
   - storage-class.yaml
+  - pvc.yaml
   - indexer-resources.yaml
   - wazuh-resources.yaml
