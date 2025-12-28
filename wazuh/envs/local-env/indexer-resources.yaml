@@ -19,8 +19,14 @@ spec:
       containers:
         - name: wazuh-indexer
           image: wazuh/wazuh-indexer:4.7.2
+
+          env:
+            - name: OPENSEARCH_JAVA_OPTS
+              value: "-Xms512m -Xmx512m"
+
           ports:
             - containerPort: 9200
+
           resources:
             requests:
               cpu: "250m"
