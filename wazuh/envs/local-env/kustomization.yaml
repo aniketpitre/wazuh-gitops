@@ -2,15 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../base
-  - ../../indexer_stack
-  - ../../wazuh_managers
-  - ../../secrets
   - storage-class.yaml
   - pvc.yaml
-  - dashboard.yaml
-  - dashboard-service.yaml
-
-patchesStrategicMerge:
   - indexer-resources.yaml
   - wazuh-resources.yaml
+  - dashboard.yaml
+  - dashboard-service.yaml
