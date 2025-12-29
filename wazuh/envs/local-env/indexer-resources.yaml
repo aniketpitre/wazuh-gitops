@@ -29,6 +29,10 @@ spec:
               value: "false"
             - name: OPENSEARCH_TRANSPORT_SSL_ENABLED
               value: "false"
+            - name: network.host
+              value: "0.0.0.0"
+            - name: http.port
+              value: "9200"
 
           ports:
             - containerPort: 9200
