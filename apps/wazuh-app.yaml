@@ -20,10 +20,23 @@ spec:
     automated:
       prune: true
       selfHeal: true
-      
+
   ignoreDifferences:
+  # 1️⃣ StorageClass (cluster-scoped, mutated)
   - group: storage.k8s.io
     kind: StorageClass
     jsonPointers:
     - /metadata/annotations
     - /provisioner
+
+  # 2️⃣ Secrets (certs -> base64 -> reordered)
+  - group: ""
+    kind: Secret
+    jsonPointers:
+    - /data
+
+  # 3️⃣ StatefulSets (PVC templates mutated)
+  - group: apps
+    kind: StatefulSet
+    jsonPointers:
+    - /spec/volumeClaimTemplates
