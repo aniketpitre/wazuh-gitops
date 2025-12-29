@@ -27,21 +27,13 @@ spec:
           ports:
             - containerPort: 9200
 
-          resources:
-            requests:
-              cpu: "250m"
-              memory: "512Mi"
-            limits:
-              cpu: "500m"
-              memory: "1Gi"
-
           volumeMounts:
             - name: wazuh-indexer-data
               mountPath: /var/lib/wazuh-indexer
 
-            # 🔴 THIS IS THE KEY LINE
+            # ✅ CORRECT PATH
             - name: indexer-config
-              mountPath: /usr/share/wazuh-indexer/config/opensearch.yml
+              mountPath: /usr/share/wazuh-indexer/opensearch.yml
               subPath: opensearch.yml
 
       volumes:
@@ -49,7 +41,6 @@ spec:
           persistentVolumeClaim:
             claimName: wazuh-indexer-pvc
 
-        # 🔴 THIS CONNECTS THE CONFIGMAP
         - name: indexer-config
           configMap:
             name: wazuh-indexer-config
