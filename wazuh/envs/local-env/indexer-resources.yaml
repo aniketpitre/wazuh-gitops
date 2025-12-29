@@ -31,9 +31,9 @@ spec:
             - name: wazuh-indexer-data
               mountPath: /var/lib/wazuh-indexer
 
-            # ✅ CORRECT LOCATION
+            # ✅ THIS IS THE CRITICAL FIX
             - name: indexer-config
-              mountPath: /etc/wazuh-indexer/opensearch.yml
+              mountPath: /usr/share/wazuh-indexer/opensearch.yml
               subPath: opensearch.yml
 
       volumes:
