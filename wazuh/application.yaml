@@ -5,14 +5,20 @@ metadata:
   namespace: argocd
 spec:
   project: default
+
   source:
-    repoURL: https://github.com/aniketpitre/wazuh-gitops.git
-    targetRevision: main
-    path: wazuh
+    repoURL: https://packages.wazuh.com/4.x/helm/
+    chart: wazuh
+    targetRevision: 4.9.0
+    helm:
+      valueFiles:
+        - https://raw.githubusercontent.com/aniketpitre/wazuh-gitops/main/wazuh/values.yaml
+
   destination:
     server: https://kubernetes.default.svc
     namespace: wazuh
+
   syncPolicy:
     automated:
-      selfHeal: true
       prune: true
+      selfHeal: true
