@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - storage-class.yaml
   - pvc.yaml
+  - indexer-config.yaml
   - indexer-service.yaml
   - wazuh-manager-service.yaml
   - indexer-resources.yaml

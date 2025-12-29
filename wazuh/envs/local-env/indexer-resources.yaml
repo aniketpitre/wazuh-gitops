@@ -23,16 +23,6 @@ spec:
           env:
             - name: OPENSEARCH_JAVA_OPTS
               value: "-Xms512m -Xmx512m"
-            - name: OPENSEARCH_SECURITY_ENABLED
-              value: "false"
-            - name: OPENSEARCH_HTTP_SSL_ENABLED
-              value: "false"
-            - name: OPENSEARCH_TRANSPORT_SSL_ENABLED
-              value: "false"
-            - name: OPENSEARCH_NETWORK_HOST
-              value: "0.0.0.0"
-            - name: OPENSEARCH_HTTP_PORT
-              value: "9200"
 
           ports:
             - containerPort: 9200
@@ -49,7 +39,17 @@ spec:
             - name: wazuh-indexer-data
               mountPath: /var/lib/wazuh-indexer
 
+            # 🔴 THIS IS THE KEY LINE
+            - name: indexer-config
+              mountPath: /usr/share/wazuh-indexer/config/opensearch.yml
+              subPath: opensearch.yml
+
       volumes:
         - name: wazuh-indexer-data
           persistentVolumeClaim:
             claimName: wazuh-indexer-pvc
+
+        # 🔴 THIS CONNECTS THE CONFIGMAP
+        - name: indexer-config
+          configMap:
+            name: wazuh-indexer-config
