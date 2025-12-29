@@ -20,3 +20,10 @@ spec:
     automated:
       prune: true
       selfHeal: true
+      
+  ignoreDifferences:
+  - group: storage.k8s.io
+    kind: StorageClass
+    jsonPointers:
+    - /metadata/annotations
+    - /provisioner
