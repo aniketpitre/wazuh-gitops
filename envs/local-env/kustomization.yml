@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
 - ../../wazuh
-- storage-class.yaml   # ← ADD as resource
 
 patches:
 - path: indexer-resources.yaml
