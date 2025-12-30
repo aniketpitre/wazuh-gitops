@@ -6,4 +6,3 @@ resources:
 
 patches:
 - path: indexer-resources.yaml
-- path: wazuh-resources.yaml
