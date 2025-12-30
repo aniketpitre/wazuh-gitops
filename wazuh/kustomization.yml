@@ -31,7 +31,6 @@ secretGenerator:
 
 resources:
   - base/wazuh-ns.yaml
-  - base/wazuh-ingress.yaml
 
   - secrets/wazuh-api-cred-secret.yaml
   - secrets/wazuh-authd-pass-secret.yaml
