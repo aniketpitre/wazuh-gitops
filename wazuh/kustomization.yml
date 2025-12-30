@@ -43,7 +43,6 @@ resources:
   - wazuh_managers/wazuh-registration-svc.yaml
   - wazuh_managers/wazuh-api-svc.yaml
   - wazuh_managers/wazuh-master-sts.yaml
-  - wazuh_managers/wazuh-worker-sts.yaml
 
   - indexer_stack/wazuh-indexer/indexer-svc.yaml
   - indexer_stack/wazuh-indexer/cluster/indexer-sts.yaml
