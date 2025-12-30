@@ -1,12 +1,3 @@
-# Copyright (C) 2019, Wazuh Inc.
-#
-# This program is a free software; you can redistribute it
-# and/or modify it under the terms of the GNU General Public
-# License (version 2) as published by the FSF - Free Software
-# Foundation.
-
-# Wazuh master StatefulSet
-
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -19,14 +10,14 @@ spec:
       app: wazuh-manager
       node-type: master
   serviceName: wazuh-cluster
-  podManagementPolicy: Parallel
   template:
     metadata:
       labels:
         app: wazuh-manager
         node-type: master
-      name: wazuh-manager-master
     spec:
+      securityContext:
+        fsGroup: 101
       volumes:
         - name: wazuh-server-certs
           secret:
@@ -34,25 +25,9 @@ spec:
         - name: wazuh-authd-pass
           secret:
             secretName: wazuh-authd-pass
-      securityContext:
-        fsGroup: 101
-      initContainers:
-        - name: init-wazuh-etc
-          image: 'wazuh/wazuh-manager:4.7.3'
-          command:
-            - /bin/sh
-            - -c
-            - |
-              if [ -z "$(ls -A /pvc-etc)" ]; then
-                cp -a /var/ossec/etc/* /pvc-etc/
-              fi
-          volumeMounts:
-            - name: wazuh-manager-master
-              mountPath: /pvc-etc
-              subPath: wazuh/var/ossec/etc
       containers:
         - name: wazuh-manager
-          image: 'wazuh/wazuh-manager:4.7.3'
+          image: wazuh/wazuh-manager:4.7.3
           resources:
             limits:
               cpu: 400m
@@ -65,16 +40,10 @@ spec:
               mountPath: /wazuh-config-mount/etc/authd.pass
               subPath: authd.pass
               readOnly: true
-            - name: wazuh-manager-master
-              mountPath: /var/ossec/api/configuration
-              subPath: wazuh/var/ossec/api/configuration
-            - name: wazuh-manager-master
-              mountPath: /var/ossec/etc
-              subPath: wazuh/var/ossec/etc
             - name: wazuh-server-certs
               mountPath: /var/ossec/etc/certs/root-ca.pem
-              readOnly: true
               subPath: root-ca.pem
+              readOnly: true
             - name: wazuh-server-certs
               mountPath: /var/ossec/etc/certs/server.pem
               subPath: server.pem
@@ -83,21 +52,6 @@ spec:
               mountPath: /var/ossec/etc/certs/server-key.pem
               subPath: server-key.pem
               readOnly: true
-            - name: wazuh-manager-master
-              mountPath: /var/ossec/logs
-              subPath: wazuh/var/ossec/logs
-            - name: wazuh-manager-master
-              mountPath: /var/ossec/queue
-              subPath: wazuh/var/ossec/queue
-            - name: wazuh-manager-master
-              mountPath: /var/ossec/var/multigroups
-              subPath: wazuh/var/ossec/var/multigroups
-            - name: wazuh-manager-master
-              mountPath: /var/ossec/active-response/bin
-              subPath: wazuh/var/ossec/active-response/bin
-            - name: wazuh-manager-master
-              mountPath: /var/ossec/wodles
-              subPath: wazuh/var/ossec/wodles
           ports:
             - containerPort: 1515
               name: registration
@@ -107,15 +61,15 @@ spec:
               name: api
           env:
             - name: WAZUH_INDEXER_HOSTS
-              value: 'wazuh-indexer:9200'
+              value: "wazuh-indexer:9200"
             - name: WAZUH_NODE_NAME
-              value: 'master'
+              value: "master"
             - name: WAZUH_NODE_TYPE
-              value: 'master'
+              value: "master"
             - name: WAZUH_CLUSTER_BIND_ADDR
-              value: '0.0.0.0'
+              value: "0.0.0.0"
             - name: WAZUH_CLUSTER_NODES
-              value: 'wazuh-cluster'
+              value: "wazuh-cluster"
             - name: INDEXER_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -126,12 +80,6 @@ spec:
                 secretKeyRef:
                   name: indexer-cred
                   key: password
-            - name: SSL_CERTIFICATE_AUTHORITIES
-              value: /var/ossec/etc/certs/root-ca.pem
-            - name: SSL_CERTIFICATE
-              value: /var/ossec/etc/certs/server.pem
-            - name: SSL_KEY
-              value: /var/ossec/etc/certs/server-key.pem
             - name: API_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -147,14 +95,3 @@ spec:
                 secretKeyRef:
                   name: wazuh-cluster-key
                   key: key
-  volumeClaimTemplates:
-    - metadata:
-        name: wazuh-manager-master
-        namespace: wazuh
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        storageClassName: local-storage
-        resources:
-          requests:
-            storage: 500Mi
