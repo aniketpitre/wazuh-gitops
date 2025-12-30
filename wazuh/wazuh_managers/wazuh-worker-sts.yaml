@@ -43,7 +43,7 @@ spec:
             secretName: indexer-certs
       initContainers:
         - name: init-wazuh-etc
-          image: 'wazuh/wazuh-manager:5.0.0'
+          image: 'wazuh/wazuh-manager:4.7.3'
           command:
             - /bin/sh
             - -c
