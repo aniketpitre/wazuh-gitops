@@ -45,6 +45,7 @@ resources:
   - wazuh_managers/wazuh-master-sts.yaml
 
   - indexer_stack/wazuh-indexer/indexer-svc.yaml
+  - indexer_stack/wazuh-indexer/indexer-http-svc.yaml
   - indexer_stack/wazuh-indexer/cluster/indexer-sts.yaml
 
   - indexer_stack/wazuh-dashboard/dashboard-deploy.yaml
