@@ -49,3 +49,11 @@ resources:
 
   - indexer_stack/wazuh-dashboard/dashboard-deploy.yaml
   - indexer_stack/wazuh-dashboard/dashboard-svc.yaml
+
+configMapGenerator:
+  - name: dashboard-config
+    files:
+      - indexer_stack/wazuh-dashboard/dashboard_conf/opensearch_dashboards.yml
+
+generatorOptions:
+  disableNameSuffixHash: true
