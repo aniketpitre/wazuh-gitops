@@ -1,12 +1,3 @@
-# Copyright (C) 2019, Wazuh Inc.
-#
-# This program is a free software; you can redistribute it
-# and/or modify it under the terms of the GNU General Public
-# License (version 2) as published by the FSF - Free Software
-# Foundation.
-
-# Dashboard Deployment
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,7 +12,6 @@ spec:
     metadata:
       labels:
         app: wazuh-dashboard
-      name: wazuh-dashboard
     spec:
       volumes:
         - name: dashboard-config
@@ -30,87 +20,48 @@ spec:
         - name: dashboard-certs
           secret:
             secretName: dashboard-certs
-
       containers:
         - name: wazuh-dashboard
-          image: 'wazuh/wazuh-dashboard:4.7.3'
-          resources:
-            limits:
-              cpu: 500m
-              memory: 1Gi
-
-          volumeMounts:
-            - name: dashboard-config
-              mountPath: /usr/share/wazuh-dashboard/config/opensearch_dashboards.yml
-              subPath: opensearch_dashboards.yml
-
-            - name: dashboard-certs
-              mountPath: /usr/share/wazuh-dashboard/config/certs/dashboard.pem
-              subPath: dashboard.pem
-              readOnly: true
-
-            - name: dashboard-certs
-              mountPath: /usr/share/wazuh-dashboard/config/certs/dashboard-key.pem
-              subPath: dashboard-key.pem
-              readOnly: true
-
-            - name: dashboard-certs
-              mountPath: /usr/share/wazuh-dashboard/config/certs/root-ca.pem
-              subPath: root-ca.pem
-              readOnly: true
-
+          image: wazuh/wazuh-dashboard:4.7.3
           ports:
             - containerPort: 443
               name: dashboard
-
           env:
+            - name: OPENSEARCH_HOSTS
+              value: "https://wazuh-indexer:9200"
             - name: INDEXER_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: indexer-cred
                   key: username
-
             - name: INDEXER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: indexer-cred
                   key: password
-
-            - name: DASHBOARD_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: dashboard-cred
-                  key: username
-
-            - name: DASHBOARD_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: dashboard-cred
-                  key: password
-
-            - name: SERVER_SSL_ENABLED
-              value: "true"
-
-            - name: SERVER_SSL_CERTIFICATE
-              value: /usr/share/wazuh-dashboard/config/certs/dashboard.pem
-
-            - name: SERVER_SSL_KEY
-              value: /usr/share/wazuh-dashboard/config/certs/dashboard-key.pem
-
-            - name: OPENSEARCH_SSL_CERTIFICATE_AUTHORITIES
-              value: /usr/share/wazuh-dashboard/config/certs/root-ca.pem
-
             - name: WAZUH_API_URL
-              value: https://wazuh-api
-
+              value: "https://wazuh-api"
             - name: API_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: wazuh-api-cred
                   key: username
-
             - name: API_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: wazuh-api-cred
                   key: password
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 400m
+              memory: 1Gi
+          volumeMounts:
+            - name: dashboard-certs
+              mountPath: /usr/share/wazuh-dashboard/certs
+              readOnly: true
+            - name: dashboard-config
+              mountPath: /usr/share/wazuh-dashboard/config/opensearch_dashboards.yml
+              subPath: opensearch_dashboards.yml
