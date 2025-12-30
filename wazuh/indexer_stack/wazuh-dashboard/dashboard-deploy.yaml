@@ -24,12 +24,13 @@ spec:
       name: wazuh-dashboard
     spec:
       volumes:
-        - name: config
+        - name: dashboard-config
           configMap:
-            name: dashboard-conf
+            name: dashboard-config
         - name: dashboard-certs
           secret:
             secretName: dashboard-certs
+
       containers:
         - name: wazuh-dashboard
           image: 'wazuh/wazuh-dashboard:4.7.3'
@@ -37,60 +38,77 @@ spec:
             limits:
               cpu: 500m
               memory: 1Gi
+
           volumeMounts:
+            - name: dashboard-config
+              mountPath: /usr/share/wazuh-dashboard/config/opensearch_dashboards.yml
+              subPath: opensearch_dashboards.yml
+
             - name: dashboard-certs
               mountPath: /usr/share/wazuh-dashboard/config/certs/dashboard.pem
-              readOnly: true
               subPath: dashboard.pem
+              readOnly: true
+
             - name: dashboard-certs
               mountPath: /usr/share/wazuh-dashboard/config/certs/dashboard-key.pem
-              readOnly: true
               subPath: dashboard-key.pem
+              readOnly: true
+
             - name: dashboard-certs
               mountPath: /usr/share/wazuh-dashboard/config/certs/root-ca.pem
               subPath: root-ca.pem
               readOnly: true
+
           ports:
             - containerPort: 443
               name: dashboard
+
           env:
-            - name: OPENSEARCH_HOSTS
-              value: 'https://wazuh-indexer:9200'
             - name: INDEXER_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: indexer-cred
                   key: username
+
             - name: INDEXER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: indexer-cred
                   key: password
+
             - name: DASHBOARD_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: dashboard-cred
                   key: username
+
             - name: DASHBOARD_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: dashboard-cred
                   key: password
+
             - name: SERVER_SSL_ENABLED
               value: "true"
+
             - name: SERVER_SSL_CERTIFICATE
               value: /usr/share/wazuh-dashboard/config/certs/dashboard.pem
+
             - name: SERVER_SSL_KEY
               value: /usr/share/wazuh-dashboard/config/certs/dashboard-key.pem
+
             - name: OPENSEARCH_SSL_CERTIFICATE_AUTHORITIES
               value: /usr/share/wazuh-dashboard/config/certs/root-ca.pem
+
             - name: WAZUH_API_URL
               value: https://wazuh-api
+
             - name: API_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: wazuh-api-cred
                   key: username
+
             - name: API_PASSWORD
               valueFrom:
                 secretKeyRef:
