@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: wazuh-api
-          image: wazuh/wazuh-api:4.7.3
+          image: wazuh/wazuh-manager:4.7.3
           ports:
             - containerPort: 55000
           env:
