@@ -25,6 +25,12 @@ spec:
         - name: wazuh-authd-pass
           secret:
             secretName: wazuh-authd-pass
+
+        # 🔴 ADDED: API CONFIGMAP VOLUME
+        - name: wazuh-api-config
+          configMap:
+            name: wazuh-manager-api-config
+
       containers:
         - name: wazuh-manager
           image: wazuh/wazuh-manager:4.7.3
@@ -52,6 +58,13 @@ spec:
               mountPath: /var/ossec/etc/certs/server-key.pem
               subPath: server-key.pem
               readOnly: true
+
+            # 🔴 ADDED: API CONFIG FILE MOUNT
+            - name: wazuh-api-config
+              mountPath: /var/ossec/api/configuration/api.yaml
+              subPath: api.yaml
+              readOnly: true
+
           ports:
             - containerPort: 1515
               name: registration
@@ -59,6 +72,7 @@ spec:
               name: cluster
             - containerPort: 55000
               name: api
+
           env:
             - name: WAZUH_INDEXER_HOSTS
               value: "wazuh-indexer:9200"
@@ -70,6 +84,7 @@ spec:
               value: "0.0.0.0"
             - name: WAZUH_CLUSTER_NODES
               value: "wazuh-cluster"
+
             - name: INDEXER_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -80,6 +95,7 @@ spec:
                 secretKeyRef:
                   name: indexer-cred
                   key: password
+
             - name: API_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -90,6 +106,7 @@ spec:
                 secretKeyRef:
                   name: wazuh-api-cred
                   key: password
+
             - name: WAZUH_CLUSTER_KEY
               valueFrom:
                 secretKeyRef:
