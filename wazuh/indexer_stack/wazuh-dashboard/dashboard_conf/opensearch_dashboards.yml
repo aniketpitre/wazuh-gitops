@@ -9,4 +9,4 @@ opensearch.ssl.verificationMode: none
 opensearch.requestHeadersAllowlist: [authorization, securitytenant]
 opensearch_security.multitenancy.enabled: false
 
-uiSettings.overrides.defaultRoute: /app/wz-home
+uiSettings.overrides.defaultRoute: /app/wazuh
