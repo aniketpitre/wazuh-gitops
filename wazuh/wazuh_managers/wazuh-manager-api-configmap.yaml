@@ -9,4 +9,4 @@ data:
     port: 55000
 
     https:
-      enabled: yes
+      enabled: no
