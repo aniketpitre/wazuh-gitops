@@ -26,11 +26,6 @@ spec:
           secret:
             secretName: wazuh-authd-pass
 
-        # 🔴 ADDED: API CONFIGMAP VOLUME
-        - name: wazuh-api-config
-          configMap:
-            name: wazuh-manager-api-config
-
       containers:
         - name: wazuh-manager
           image: wazuh/wazuh-manager:4.7.3
@@ -57,12 +52,6 @@ spec:
             - name: wazuh-server-certs
               mountPath: /var/ossec/etc/certs/server-key.pem
               subPath: server-key.pem
-              readOnly: true
-
-            # 🔴 ADDED: API CONFIG FILE MOUNT
-            - name: wazuh-api-config
-              mountPath: /var/ossec/api/configuration/api.yaml
-              subPath: api.yaml
               readOnly: true
 
           ports:
