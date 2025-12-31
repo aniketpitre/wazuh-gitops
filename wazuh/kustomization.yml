@@ -47,6 +47,7 @@ resources:
 
   # 🔴 FIX: ADD WAZUH API DEPLOYMENT
   - wazuh-api/wazuh-api-deployment.yaml
+  - wazuh_api/wazuh-api-configmap.yaml
 
   - indexer_stack/wazuh-indexer/indexer-svc.yaml
   - indexer_stack/wazuh-indexer/indexer-http-svc.yaml

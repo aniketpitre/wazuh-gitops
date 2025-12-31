@@ -13,17 +13,23 @@ spec:
       labels:
         app: wazuh-api
     spec:
+      volumes:
+        - name: wazuh-api-config
+          configMap:
+            name: wazuh-api-config
+
       containers:
         - name: wazuh-api
           image: wazuh/wazuh-manager:4.7.3
           ports:
             - containerPort: 55000
+
           env:
-            # Connect API to Wazuh Manager
+            # Connect API to Manager
             - name: WAZUH_MANAGER
               value: "wazuh-manager-master"
 
-            # API credentials (already present in your repo)
+            # API credentials
             - name: API_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -35,6 +41,11 @@ spec:
                   name: wazuh-api-cred
                   key: password
 
-            # Disable HTTPS for lab simplicity
+            # Disable HTTPS for lab
             - name: HTTPS
               value: "false"
+
+          volumeMounts:
+            - name: wazuh-api-config
+              mountPath: /var/ossec/api/configuration/api.yaml
+              subPath: api.yaml
