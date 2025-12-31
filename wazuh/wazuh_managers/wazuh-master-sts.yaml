@@ -84,6 +84,8 @@ spec:
               value: "0.0.0.0"
             - name: WAZUH_CLUSTER_NODES
               value: "wazuh-cluster"
+            - name: WAZUH_API_ENABLED
+              value: "true"
 
             - name: INDEXER_USERNAME
               valueFrom:
