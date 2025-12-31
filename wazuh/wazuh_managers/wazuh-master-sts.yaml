@@ -18,58 +18,41 @@ spec:
     spec:
       securityContext:
         fsGroup: 101
-
-      volumes:
-        - name: ossec-data
-          emptyDir: {}
-
       containers:
-      # =====================
-      # WAZUH MANAGER
-      # =====================
-      - name: wazuh-manager
-        image: wazuh/wazuh-manager:4.7.3
-        securityContext:
-          capabilities:
-            add: ["SYS_CHROOT"]
-        volumeMounts:
-          - name: ossec-data
-            mountPath: /var/ossec
-        ports:
-          - containerPort: 1515
-            name: registration
-          - containerPort: 1516
-            name: cluster
-        env:
-          - name: WAZUH_INDEXER_HOSTS
-            value: "wazuh-indexer:9200"
-          - name: WAZUH_NODE_NAME
-            value: "master"
-          - name: WAZUH_NODE_TYPE
-            value: "master"
-
-      # =====================
-      # WAZUH API (SIDECAR)
-      # =====================
-      - name: wazuh-api
-        image: wazuh/wazuh-manager:4.7.3
-        command: ["/var/ossec/bin/wazuh-apid", "-f"]
-        volumeMounts:
-          - name: ossec-data
-            mountPath: /var/ossec
-        ports:
-          - containerPort: 55000
-            name: api
-        env:
-          - name: API_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: wazuh-api-cred
-                key: username
-          - name: API_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: wazuh-api-cred
-                key: password
-          - name: HTTPS
-            value: "false"
+        - name: wazuh-manager
+          image: wazuh/wazuh-manager:4.7.3
+          securityContext:
+            capabilities:
+              add: ["SYS_CHROOT"]
+          ports:
+            - containerPort: 1515
+              name: registration
+            - containerPort: 1516
+              name: cluster
+            - containerPort: 55000
+              name: api
+          env:
+            - name: WAZUH_INDEXER_HOSTS
+              value: "wazuh-indexer:9200"
+            - name: WAZUH_NODE_NAME
+              value: "master"
+            - name: WAZUH_NODE_TYPE
+              value: "master"
+            - name: WAZUH_API_ENABLED
+              value: "true"
+            - name: WAZUH_API_HOST
+              value: "0.0.0.0"
+            - name: WAZUH_API_PORT
+              value: "55000"
+            - name: WAZUH_API_HTTPS
+              value: "false"
+            - name: API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: wazuh-api-cred
+                  key: username
+            - name: API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wazuh-api-cred
+                  key: password
