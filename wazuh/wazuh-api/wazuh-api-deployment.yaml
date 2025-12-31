@@ -21,15 +21,20 @@ spec:
       containers:
         - name: wazuh-api
           image: wazuh/wazuh-manager:4.7.3
+
+          # 🔴 THIS IS THE FIX
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              /var/ossec/bin/wazuh-apid -f
+
           ports:
             - containerPort: 55000
 
           env:
-            # Connect API to Manager
             - name: WAZUH_MANAGER
               value: "wazuh-manager-master"
 
-            # API credentials
             - name: API_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -41,7 +46,6 @@ spec:
                   name: wazuh-api-cred
                   key: password
 
-            # Disable HTTPS for lab
             - name: HTTPS
               value: "false"
 
