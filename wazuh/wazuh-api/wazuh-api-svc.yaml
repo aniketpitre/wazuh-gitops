@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wazuh-api
+  namespace: wazuh
+spec:
+  selector:
+    app: wazuh-api
+  ports:
+    - protocol: TCP
+      port: 55000
+      targetPort: 55000

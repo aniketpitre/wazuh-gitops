@@ -36,6 +36,7 @@ spec:
           securityContext:
             capabilities:
               add: ["SYS_CHROOT"]
+
           volumeMounts:
             - name: wazuh-authd-pass
               mountPath: /wazuh-config-mount/etc/authd.pass
@@ -59,8 +60,6 @@ spec:
               name: registration
             - containerPort: 1516
               name: cluster
-            - containerPort: 55000
-              name: api
 
           env:
             - name: WAZUH_INDEXER_HOSTS
@@ -73,8 +72,6 @@ spec:
               value: "0.0.0.0"
             - name: WAZUH_CLUSTER_NODES
               value: "wazuh-cluster"
-            - name: WAZUH_API_ENABLED
-              value: "true"
 
             - name: INDEXER_USERNAME
               valueFrom:
@@ -85,17 +82,6 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: indexer-cred
-                  key: password
-
-            - name: API_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: wazuh-api-cred
-                  key: username
-            - name: API_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: wazuh-api-cred
                   key: password
 
             - name: WAZUH_CLUSTER_KEY

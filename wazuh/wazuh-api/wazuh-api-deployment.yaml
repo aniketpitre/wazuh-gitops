@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wazuh-api
+  namespace: wazuh
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wazuh-api
+  template:
+    metadata:
+      labels:
+        app: wazuh-api
+    spec:
+      containers:
+        - name: wazuh-api
+          image: wazuh/wazuh-api:4.7.3
+          ports:
+            - containerPort: 55000
+          env:
+            # Connect API to Wazuh Manager
+            - name: WAZUH_MANAGER
+              value: "wazuh-manager-master"
+
+            # API credentials (already present in your repo)
+            - name: API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: wazuh-api-cred
+                  key: username
+            - name: API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wazuh-api-cred
+                  key: password
+
+            # Disable HTTPS for lab simplicity
+            - name: HTTPS
+              value: "false"
