@@ -41,13 +41,10 @@ resources:
 
   - wazuh_managers/wazuh-cluster-svc.yaml
   - wazuh_managers/wazuh-events-svc.yaml
+  - wazuh_managers/wazuh-api-svc.yaml 
   - wazuh_managers/wazuh-registration-svc.yaml
   - wazuh_managers/wazuh-master-sts.yaml
 
-  # 🔴 FIX: ADD WAZUH API DEPLOYMENT
-  - wazuh-api/wazuh-api-deployment.yaml
-  - wazuh-api/wazuh-api-configmap.yaml
-  - wazuh-api/wazuh-api-svc.yaml
 
   - indexer_stack/wazuh-indexer/indexer-svc.yaml
   - indexer_stack/wazuh-indexer/indexer-http-svc.yaml

@@ -5,7 +5,8 @@ metadata:
   namespace: wazuh
 spec:
   selector:
-    app: wazuh-api
+    app: wazuh-manager
+    node-type: master
   ports:
     - protocol: TCP
       port: 55000
