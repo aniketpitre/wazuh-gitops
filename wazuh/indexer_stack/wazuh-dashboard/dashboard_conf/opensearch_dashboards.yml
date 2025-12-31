@@ -1,13 +1,10 @@
 server.host: 0.0.0.0
-server.port: 443
+server.port: 5601
 
-server.ssl.enabled: true
-server.ssl.certificate: /usr/share/wazuh-dashboard/certs/dashboard.pem
-server.ssl.key: /usr/share/wazuh-dashboard/certs/dashboard-key.pem
+server.ssl.enabled: false
 
 opensearch.hosts: ["https://wazuh-indexer-http:9200"]
 opensearch.ssl.verificationMode: none
-opensearch.ssl.certificateAuthorities: ["/usr/share/wazuh-dashboard/certs/root-ca.pem"]
 
 opensearch.requestHeadersAllowlist: [authorization, securitytenant]
 opensearch_security.multitenancy.enabled: false

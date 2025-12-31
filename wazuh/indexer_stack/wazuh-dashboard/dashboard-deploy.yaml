@@ -17,18 +17,28 @@ spec:
         - name: dashboard-config
           configMap:
             name: dashboard-config
-        - name: dashboard-certs
-          secret:
-            secretName: dashboard-certs
       containers:
         - name: wazuh-dashboard
           image: wazuh/wazuh-dashboard:4.7.3
           ports:
-            - containerPort: 443
-              name: dashboard
+            - containerPort: 5601
+              name: http
           env:
+            # Dashboard HTTP config
+            - name: SERVER_HOST
+              value: "0.0.0.0"
+            - name: SERVER_PORT
+              value: "5601"
+            - name: SERVER_SSL_ENABLED
+              value: "false"
+
+            # OpenSearch (HTTPS)
             - name: OPENSEARCH_HOSTS
               value: "https://wazuh-indexer-http:9200"
+            - name: OPENSEARCH_SSL_VERIFICATIONMODE
+              value: "none"
+
+            # Indexer credentials
             - name: INDEXER_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -39,6 +49,8 @@ spec:
                 secretKeyRef:
                   name: indexer-cred
                   key: password
+
+            # Wazuh API
             - name: WAZUH_API_URL
               value: "https://wazuh-api"
             - name: API_USERNAME
@@ -51,6 +63,7 @@ spec:
                 secretKeyRef:
                   name: wazuh-api-cred
                   key: password
+
           resources:
             requests:
               cpu: 200m
@@ -58,10 +71,8 @@ spec:
             limits:
               cpu: 400m
               memory: 1Gi
+
           volumeMounts:
-            - name: dashboard-certs
-              mountPath: /usr/share/wazuh-dashboard/certs
-              readOnly: true
             - name: dashboard-config
               mountPath: /usr/share/wazuh-dashboard/config/opensearch_dashboards.yml
               subPath: opensearch_dashboards.yml
