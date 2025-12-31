@@ -60,6 +60,8 @@ spec:
               name: registration
             - containerPort: 1516
               name: cluster
+            - containerPort: 55000
+              name: api   # 🔴 REQUIRED
 
           env:
             - name: WAZUH_INDEXER_HOSTS
@@ -72,6 +74,16 @@ spec:
               value: "0.0.0.0"
             - name: WAZUH_CLUSTER_NODES
               value: "wazuh-cluster"
+
+            # 🔴 REQUIRED: ENABLE API
+            - name: WAZUH_API_ENABLED
+              value: "true"
+            - name: WAZUH_API_HOST
+              value: "0.0.0.0"
+            - name: WAZUH_API_PORT
+              value: "55000"
+            - name: WAZUH_API_HTTPS
+              value: "false"
 
             - name: INDEXER_USERNAME
               valueFrom:
