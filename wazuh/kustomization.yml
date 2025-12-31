@@ -41,10 +41,11 @@ resources:
 
   - wazuh_managers/wazuh-cluster-svc.yaml
   - wazuh_managers/wazuh-events-svc.yaml
-  - wazuh_managers/wazuh-api-svc.yaml 
   - wazuh_managers/wazuh-registration-svc.yaml
   - wazuh_managers/wazuh-master-sts.yaml
 
+  - wazuh-api/wazuh-api-deployment.yaml
+  - wazuh-api/wazuh-api-svc.yaml
 
   - indexer_stack/wazuh-indexer/indexer-svc.yaml
   - indexer_stack/wazuh-indexer/indexer-http-svc.yaml
