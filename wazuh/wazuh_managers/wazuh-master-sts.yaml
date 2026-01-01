@@ -19,7 +19,6 @@ spec:
       securityContext:
         fsGroup: 101
 
-      # 🔽🔽🔽 FIXED: init container to populate /var/ossec correctly 🔽🔽🔽
       initContainers:
         - name: init-wazuh-manager-data
           image: wazuh/wazuh-manager:4.7.3
@@ -34,11 +33,14 @@ spec:
           volumeMounts:
             - name: wazuh-manager-storage
               mountPath: /mnt/ossec
-      # 🔼🔼🔼 END FIX 🔼🔼🔼
 
       containers:
         - name: wazuh-manager
           image: wazuh/wazuh-manager:4.7.3
+
+          # ✅ ONLY CHANGE: keep container running
+          command: ["/init"]
+
           securityContext:
             capabilities:
               add: ["SYS_CHROOT"]
