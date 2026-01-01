@@ -18,6 +18,24 @@ spec:
     spec:
       securityContext:
         fsGroup: 101
+
+      # 🔽🔽🔽 ADDED: init container to populate /var/ossec 🔽🔽🔽
+      initContainers:
+        - name: init-wazuh-manager-data
+          image: wazuh/wazuh-manager:4.7.3
+          command:
+            - /bin/sh
+            - -c
+            - |
+              if [ ! -d /var/ossec/etc ]; then
+                echo "Initializing Wazuh Manager data directory"
+                cp -a /var/ossec/* /mnt/ossec/
+              fi
+          volumeMounts:
+            - name: wazuh-manager-storage
+              mountPath: /mnt/ossec
+      # 🔼🔼🔼 END ADDITION 🔼🔼🔼
+
       containers:
         - name: wazuh-manager
           image: wazuh/wazuh-manager:4.7.3
@@ -32,11 +50,9 @@ spec:
             - containerPort: 55000
               name: api
 
-          # 🔽🔽🔽 ADDED: persist manager data 🔽🔽🔽
           volumeMounts:
             - name: wazuh-manager-storage
               mountPath: /var/ossec
-          # 🔼🔼🔼 END ADDITION 🔼🔼🔼
 
           env:
             - name: WAZUH_INDEXER_HOSTS
@@ -64,9 +80,7 @@ spec:
                   name: wazuh-api-cred
                   key: password
 
-      # 🔽🔽🔽 ADDED: attach PVC 🔽🔽🔽
       volumes:
         - name: wazuh-manager-storage
           persistentVolumeClaim:
             claimName: wazuh-manager-pvc
-      # 🔼🔼🔼 END ADDITION 🔼🔼🔼
