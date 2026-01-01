@@ -38,8 +38,8 @@ spec:
         - name: wazuh-manager
           image: wazuh/wazuh-manager:4.7.3
 
-          # ✅ ONLY CHANGE: keep container running
-          command: ["/init"]
+          # ✅ FINAL FIX: keep PID 1 alive permanently
+          command: ["/bin/bash", "-c", "/init && tail -f /dev/null"]
 
           securityContext:
             capabilities:
