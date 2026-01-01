@@ -1,5 +1,3 @@
-# Wazuh workers service: Agent reporting
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -11,7 +9,7 @@ spec:
   type: LoadBalancer
   selector:
     app: wazuh-manager
-    node-type: manager
+    node-type: master
   ports:
     - name: agents-events
       port: 1514
