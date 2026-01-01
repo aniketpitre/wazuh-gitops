@@ -19,7 +19,7 @@ spec:
       securityContext:
         fsGroup: 101
 
-      # 🔽🔽🔽 ADDED: init container to populate /var/ossec 🔽🔽🔽
+      # 🔽🔽🔽 FIXED: init container to populate /var/ossec correctly 🔽🔽🔽
       initContainers:
         - name: init-wazuh-manager-data
           image: wazuh/wazuh-manager:4.7.3
@@ -27,14 +27,14 @@ spec:
             - /bin/sh
             - -c
             - |
-              if [ ! -d /var/ossec/etc ]; then
-                echo "Initializing Wazuh Manager data directory"
-                cp -a /var/ossec/* /mnt/ossec/
+              if [ ! -d /mnt/ossec/etc ]; then
+                echo "Initializing Wazuh Manager persistent data directory"
+                cp -a /var/ossec/data_tmp/permanent/var/ossec/* /mnt/ossec/
               fi
           volumeMounts:
             - name: wazuh-manager-storage
               mountPath: /mnt/ossec
-      # 🔼🔼🔼 END ADDITION 🔼🔼🔼
+      # 🔼🔼🔼 END FIX 🔼🔼🔼
 
       containers:
         - name: wazuh-manager
