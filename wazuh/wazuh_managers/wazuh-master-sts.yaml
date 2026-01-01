@@ -19,28 +19,9 @@ spec:
       securityContext:
         fsGroup: 101
 
-      initContainers:
-        - name: init-wazuh-manager-data
-          image: wazuh/wazuh-manager:4.7.3
-          command:
-            - /bin/sh
-            - -c
-            - |
-              if [ ! -d /mnt/ossec/etc ]; then
-                echo "Initializing Wazuh Manager persistent data directory"
-                cp -a /var/ossec/data_tmp/permanent/var/ossec/* /mnt/ossec/
-              fi
-          volumeMounts:
-            - name: wazuh-manager-storage
-              mountPath: /mnt/ossec
-
       containers:
         - name: wazuh-manager
           image: wazuh/wazuh-manager:4.7.3
-
-          # ✅ FINAL FIX: keep PID 1 alive permanently
-          command: ["/bin/bash", "-c", "/init && tail -f /dev/null"]
-
           securityContext:
             capabilities:
               add: ["SYS_CHROOT"]
@@ -54,7 +35,7 @@ spec:
 
           volumeMounts:
             - name: wazuh-manager-storage
-              mountPath: /var/ossec
+              mountPath: /var/ossec/data
 
           env:
             - name: WAZUH_INDEXER_HOSTS
