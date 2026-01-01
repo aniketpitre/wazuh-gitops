@@ -31,6 +31,13 @@ spec:
               name: cluster
             - containerPort: 55000
               name: api
+
+          # 🔽🔽🔽 ADDED: persist manager data 🔽🔽🔽
+          volumeMounts:
+            - name: wazuh-manager-storage
+              mountPath: /var/ossec
+          # 🔼🔼🔼 END ADDITION 🔼🔼🔼
+
           env:
             - name: WAZUH_INDEXER_HOSTS
               value: "wazuh-indexer:9200"
@@ -56,3 +63,10 @@ spec:
                 secretKeyRef:
                   name: wazuh-api-cred
                   key: password
+
+      # 🔽🔽🔽 ADDED: attach PVC 🔽🔽🔽
+      volumes:
+        - name: wazuh-manager-storage
+          persistentVolumeClaim:
+            claimName: wazuh-manager-pvc
+      # 🔼🔼🔼 END ADDITION 🔼🔼🔼
