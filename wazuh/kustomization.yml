@@ -63,7 +63,6 @@ configMapGenerator:
       - indexer_stack/wazuh-indexer/securityconfig/roles.yml
       - indexer_stack/wazuh-indexer/securityconfig/roles_mapping.yml
       - indexer_stack/wazuh-indexer/securityconfig/action_groups.yml
-      - indexer_stack/wazuh-indexer/securityconfig/tenants.yml
       - indexer_stack/wazuh-indexer/securityconfig/whitelist.yml 
       - indexer_stack/wazuh-indexer/securityconfig/nodes_dn.yml
 
