@@ -11,26 +11,15 @@ kind: Kustomization
 # Adds wazuh namespace to all resources.
 namespace: wazuh
 
-secretGenerator:
-  - name: indexer-certs
-    files:
-      - wazuh-certificates/root-ca.pem
-      - wazuh-certificates/indexer.pem
-      - wazuh-certificates/indexer-key.pem
-      - wazuh-certificates/dashboard.pem
-      - wazuh-certificates/dashboard-key.pem
-      - wazuh-certificates/admin.pem
-      - wazuh-certificates/admin-key.pem
-      - wazuh-certificates/server.pem
-      - wazuh-certificates/server-key.pem
-
-  - name: dashboard-certs
-    files:
-      - wazuh-certificates/dashboard.pem
-      - wazuh-certificates/dashboard-key.pem
-      - wazuh-certificates/root-ca.pem
-
+# 🔹🔹🔹 FIX: STORAGE MUST BE HERE (since local-env is no longer used) 🔹🔹🔹
 resources:
+  - ../storage/storage-class.yaml
+  - ../storage/wazuh-manager-pv.yaml
+  - ../storage/wazuh-manager-pvc.yaml
+  - ../storage/wazuh-indexer-pv.yaml
+  - ../storage/wazuh-indexer-pvc.yaml
+
+  # 🔹 EXISTING RESOURCES (UNCHANGED)
   - base/wazuh-ns.yaml
 
   - secrets/wazuh-api-cred-secret.yaml
@@ -53,6 +42,25 @@ resources:
 
   - indexer_stack/wazuh-dashboard/dashboard-deploy.yaml
   - indexer_stack/wazuh-dashboard/dashboard-svc.yaml
+
+secretGenerator:
+  - name: indexer-certs
+    files:
+      - wazuh-certificates/root-ca.pem
+      - wazuh-certificates/indexer.pem
+      - wazuh-certificates/indexer-key.pem
+      - wazuh-certificates/dashboard.pem
+      - wazuh-certificates/dashboard-key.pem
+      - wazuh-certificates/admin.pem
+      - wazuh-certificates/admin-key.pem
+      - wazuh-certificates/server.pem
+      - wazuh-certificates/server-key.pem
+
+  - name: dashboard-certs
+    files:
+      - wazuh-certificates/dashboard.pem
+      - wazuh-certificates/dashboard-key.pem
+      - wazuh-certificates/root-ca.pem
 
 configMapGenerator:
   - name: dashboard-config
