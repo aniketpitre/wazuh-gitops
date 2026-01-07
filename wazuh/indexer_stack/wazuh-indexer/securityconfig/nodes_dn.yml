@@ -1,6 +1,6 @@
 _meta:
-  type: "nodesdn"
+  type: nodesdn
   config_version: 2
 
 nodes_dn:
-  - "CN=wazuh-indexer"
+  - "CN=wazuh-indexer,OU=Wazuh,O=Wazuh,L=California,C=US"
