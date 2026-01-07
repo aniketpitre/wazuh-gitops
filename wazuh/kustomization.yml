@@ -1,8 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: wazuh
-
 resources:
   # 🔹 STORAGE (PV + StorageClass ONLY)
   - storage/storage-class.yaml
@@ -27,7 +25,7 @@ resources:
   - wazuh_managers/wazuh-api-svc.yaml
   - wazuh_managers/wazuh-master-sts.yaml
 
-  # 🔹 INDEXER (PVC COMES FROM STATEFULSET)
+  # 🔹 INDEXER
   - indexer_stack/wazuh-indexer/indexer-svc.yaml
   - indexer_stack/wazuh-indexer/indexer-http-svc.yaml
   - indexer_stack/wazuh-indexer/cluster/indexer-sts.yaml
@@ -57,6 +55,18 @@ secretGenerator:
       - wazuh-certificates/root-ca.pem
 
 configMapGenerator:
+  # 🔹🔹🔹 ADDED (Indexer security config – REQUIRED) 🔹🔹🔹
+  - name: indexer-security-config
+    files:
+      - indexer_stack/wazuh-indexer/securityconfig/config.yml
+      - indexer_stack/wazuh-indexer/securityconfig/internal_users.yml
+      - indexer_stack/wazuh-indexer/securityconfig/roles.yml
+      - indexer_stack/wazuh-indexer/securityconfig/roles_mapping.yml
+      - indexer_stack/wazuh-indexer/securityconfig/action_groups.yml
+      - indexer_stack/wazuh-indexer/securityconfig/tenants.yml
+      - indexer_stack/wazuh-indexer/securityconfig/nodes_dn.yml
+
+  # 🔹 EXISTING DASHBOARD CONFIG (UNCHANGED)
   - name: dashboard-config
     files:
       - indexer_stack/wazuh-dashboard/dashboard_conf/opensearch_dashboards.yml
