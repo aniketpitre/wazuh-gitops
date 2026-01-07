@@ -1,3 +1,12 @@
 _meta:
-  type: "roles"
+  type: roles
   config_version: 2
+
+wazuh_admin:
+  cluster_permissions:
+    - "*"
+  index_permissions:
+    - index_patterns:
+        - "*"
+      allowed_actions:
+        - "*"

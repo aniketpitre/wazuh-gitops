@@ -1,7 +1,7 @@
 _meta:
-  type: "rolesmapping"
+  type: rolesmapping
   config_version: 2
 
-all_access:
-  backend_roles:
+wazuh_admin:
+  users:
     - admin
