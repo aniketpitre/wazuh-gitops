@@ -3,4 +3,5 @@ _meta:
   config_version: 2
 
 nodes_dn:
-  CN=wazuh-indexer,OU=Wazuh,O=Wazuh,L=California,C=US: {}
+  nodes_dn:
+    - "CN=wazuh-indexer,OU=Wazuh,O=Wazuh,L=California,C=US"
