@@ -11,13 +11,11 @@ kind: Kustomization
 # Adds wazuh namespace to all resources.
 namespace: wazuh
 
-# 🔹🔹🔹 FIX: STORAGE MUST BE HERE (since local-env is no longer used) 🔹🔹🔹
 resources:
-  - ../storage/storage-class.yaml
-  - ../storage/wazuh-manager-pv.yaml
-  - ../storage/wazuh-manager-pvc.yaml
-  - ../storage/wazuh-indexer-pv.yaml
-  - ../storage/wazuh-indexer-pvc.yaml
+  # 🔹🔹🔹 STORAGE (INSIDE wazuh/, NO ../) 🔹🔹🔹
+  - storage/storage-class.yaml
+  - storage/wazuh-manager-pv.yaml
+  - storage/wazuh-indexer-pv.yaml
 
   # 🔹 EXISTING RESOURCES (UNCHANGED)
   - base/wazuh-ns.yaml
@@ -28,18 +26,21 @@ resources:
   - secrets/dashboard-cred-secret.yaml
   - secrets/indexer-cred-secret.yaml
 
-  - wazuh_managers/wazuh-cluster-svc.yaml
+  # 🔹 MANAGER
   - wazuh_managers/wazuh-manager-pvc.yaml
+  - wazuh_managers/wazuh-cluster-svc.yaml
   - wazuh_managers/wazuh-events-svc.yaml
   - wazuh_managers/wazuh-registration-svc.yaml
   - wazuh_managers/wazuh-api-svc.yaml
   - wazuh_managers/wazuh-master-sts.yaml
 
+  # 🔹 INDEXER
   - indexer_stack/wazuh-indexer/wazuh-indexer-pvc.yaml
   - indexer_stack/wazuh-indexer/indexer-svc.yaml
   - indexer_stack/wazuh-indexer/indexer-http-svc.yaml
   - indexer_stack/wazuh-indexer/cluster/indexer-sts.yaml
 
+  # 🔹 DASHBOARD
   - indexer_stack/wazuh-dashboard/dashboard-deploy.yaml
   - indexer_stack/wazuh-dashboard/dashboard-svc.yaml
 
