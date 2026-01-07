@@ -24,7 +24,6 @@ spec:
             secretName: indexer-certs
             defaultMode: 0600
 
-        # 🔹🔹🔹 ADDED: Security config from ConfigMap 🔹🔹🔹
         - name: security-config
           configMap:
             name: indexer-security-config
@@ -39,27 +38,6 @@ spec:
           volumeMounts:
             - name: wazuh-indexer
               mountPath: /var/lib/wazuh-indexer
-
-        # 🔹🔹🔹 ADDED: Auto securityadmin initialization 🔹🔹🔹
-        - name: security-init
-          image: wazuh/wazuh-indexer:4.7.3
-          command:
-            - sh
-            - -c
-            - |
-              export JAVA_HOME=/usr/share/wazuh-indexer/jdk
-              /usr/share/wazuh-indexer/plugins/opensearch-security/tools/securityadmin.sh \
-              -cd /usr/share/wazuh-indexer/plugins/opensearch-security/securityconfig \
-              -icl -nhnv \
-              -cacert /usr/share/wazuh-indexer/certs/root-ca.pem \
-              -cert /usr/share/wazuh-indexer/certs/admin.pem \
-              -key /usr/share/wazuh-indexer/certs/admin-key.pem
-          volumeMounts:
-            - name: indexer-certs
-              mountPath: /usr/share/wazuh-indexer/certs
-              readOnly: true
-            - name: security-config
-              mountPath: /usr/share/wazuh-indexer/plugins/opensearch-security/securityconfig
 
       containers:
         - name: wazuh-indexer
@@ -108,8 +86,6 @@ spec:
             - name: indexer-certs
               mountPath: /usr/share/wazuh-indexer/config/certs
               readOnly: true
-
-            # 🔹🔹🔹 ADDED: Mount securityconfig 🔹🔹🔹
             - name: security-config
               mountPath: /usr/share/wazuh-indexer/plugins/opensearch-security/securityconfig
 
