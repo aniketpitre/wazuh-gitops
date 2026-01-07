@@ -35,7 +35,7 @@ resources:
   - wazuh_managers/wazuh-master-sts.yaml
 
   # 🔹 INDEXER
-  - indexer_stack/wazuh-indexer/wazuh-indexer-pvc.yaml
+  - indexer_stack/wazuh-indexer-pvc.yaml
   - indexer_stack/wazuh-indexer/indexer-svc.yaml
   - indexer_stack/wazuh-indexer/indexer-http-svc.yaml
   - indexer_stack/wazuh-indexer/cluster/indexer-sts.yaml
